@@ -16,7 +16,7 @@ const Logo = ({ accordion, setAccordion }) => {
 					color="black"
 					style={{ flex: 1 }}
 				/>
-				<Text style={{ flex: 4, fontSize: 18 }}>Colors</Text>
+				<Text style={{ flex: 4, fontSize: 18 }}>Logo</Text>
 				<AntDesign style={{ flex: 1 }} name="down" size={18} color="black" />
 			</TouchableOpacity>
 

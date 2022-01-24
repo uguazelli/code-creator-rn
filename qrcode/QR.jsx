@@ -25,7 +25,11 @@ const tabs = [
 const QR = () => {
 	const [selectedTab, setTab] = useState("url");
 	const [accordion, setAccordion] = useState("data");
-	const [qr, setQr] = useState({ text: "https://www.code-creator.net" });
+	const [qr, setQr] = useState({
+		text: "https://www.code-creator.net",
+		dotScale: 1,
+		dotScaleAI: 1,
+	});
 	return (
 		<ScrollView style={{ backgroundColor: "#264653" }}>
 			<ScrollView style={styles.navbar} horizontal={true}>
@@ -60,7 +64,12 @@ const QR = () => {
 					qr={qr}
 					setQr={setQr}
 				/>
-				<Style accordion={accordion} setAccordion={setAccordion} />
+				<Style
+					accordion={accordion}
+					setAccordion={setAccordion}
+					qr={qr}
+					setQr={setQr}
+				/>
 				<Colors accordion={accordion} setAccordion={setAccordion} />
 				<Logo accordion={accordion} setAccordion={setAccordion} />
 			</Card>
