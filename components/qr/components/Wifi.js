@@ -1,9 +1,33 @@
+import { useEffect, useState } from "react";
 import { TextInput, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
-import { useState } from "react";
 
-const Wifi = () => {
+const Wifi = ({ initialQr, setInitialQr }) => {
 	const [encryption, setEncryption] = useState("");
+
+	const [formData, setFormData] = useState({
+		type: "WPA",
+		ssid: "",
+		password: "",
+	});
+
+	const updateWiFi = () => {
+		let data =
+			"WIFI:T:" +
+			formData.type +
+			";S:" +
+			formData.ssid +
+			";P:" +
+			formData.password +
+			";;";
+		console.log(data);
+
+		setInitialQr({ ...initialQr, text: data });
+	};
+
+	useEffect(() => updateWiFi(), [formData]);
+	useEffect(() => setFormData({ ...formData, type: encryption }), [encryption]);
+
 	return (
 		<View
 			style={{
@@ -35,6 +59,9 @@ const Wifi = () => {
 			<View>
 				<TextInput
 					placeholder="SSID"
+					onChangeText={(value) => {
+						setFormData({ ...formData, ssid: value });
+					}}
 					style={{
 						height: 40,
 						margin: 12,
@@ -47,6 +74,9 @@ const Wifi = () => {
 			<View>
 				<TextInput
 					placeholder="Password"
+					onChangeText={(value) => {
+						setFormData({ ...formData, password: value });
+					}}
 					secureTextEntry={true}
 					style={{
 						height: 40,

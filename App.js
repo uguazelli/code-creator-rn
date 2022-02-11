@@ -3,6 +3,9 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import FlashMessage from "react-native-flash-message";
+
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import QR from "./components/qr/QR";
 import Bar from "./components/bar/Bar";
@@ -16,7 +19,22 @@ const Stack = createNativeStackNavigator();
 
 function Home() {
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator
+			screenOptions={({ route }) => ({
+				tabBarIcon: ({ focused, color, size }) => {
+					let iconName;
+
+					if (route.name === "QR") iconName = "qrcode";
+					else if (route.name === "Bar") iconName = "barcode";
+
+					return (
+						<MaterialCommunityIcons name={iconName} size={size} color={color} />
+					);
+				},
+				tabBarActiveTintColor: "#264653",
+				tabBarInactiveTintColor: "gray",
+			})}
+		>
 			<Tab.Screen name="QR" component={QR} options={opts} />
 			<Tab.Screen name="Bar" component={Bar} options={opts} />
 		</Tab.Navigator>
@@ -37,6 +55,7 @@ export default function App() {
 				<Stack.Screen name="Result" component={Result} options={opts} />
 			</Stack.Navigator>
 			<StatusBar style="light" backgroundColor="#264653" />
+			<FlashMessage position="bottom" />
 		</NavigationContainer>
 	);
 }

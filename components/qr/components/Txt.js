@@ -1,6 +1,6 @@
 import { TextInput, Text, View } from "react-native";
 
-const Txt = () => {
+const Txt = ({ initialQr, setInitialQr }) => {
 	return (
 		<View
 			style={{
@@ -17,6 +17,9 @@ const Txt = () => {
 			<View style={{ justifyContent: "center", alignItems: "center" }}>
 				<TextInput
 					placeholder="Write somenthing amazing !!!"
+					onChangeText={(value) => {
+						setInitialQr({ ...initialQr, text: value });
+					}}
 					style={{
 						height: 40,
 						margin: 12,

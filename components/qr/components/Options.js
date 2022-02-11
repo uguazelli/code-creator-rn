@@ -39,42 +39,45 @@ const Options = ({ setIpt }) => {
 			</ScrollView>
 
 			<ScrollView horizontal={true}>
-				<TouchableOpacity style={styles.opt}>
+				<TouchableOpacity
+					style={styles.opt}
+					onPress={() => setIpt("instagram")}
+				>
 					<Image
 						source={require("../../../images/icon_instagram.png")}
 						style={{ width: 24, height: 24 }}
 					/>
 					<Text>Instagram</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.opt}>
+				<TouchableOpacity style={styles.opt} onPress={() => setIpt("whatsapp")}>
 					<Image
 						source={require("../../../images/icon_whatsapp.png")}
 						style={{ width: 24, height: 24 }}
 					/>
 					<Text>WhatsApp</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.opt}>
+				<TouchableOpacity style={styles.opt} onPress={() => setIpt("facebook")}>
 					<Image
 						source={require("../../../images/icon_facebook.png")}
 						style={{ width: 24, height: 24 }}
 					/>
 					<Text>Facebook</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.opt}>
+				<TouchableOpacity style={styles.opt} onPress={() => setIpt("twitter")}>
 					<Image
 						source={require("../../../images/icon_twitter.png")}
 						style={{ width: 24, height: 24 }}
 					/>
 					<Text>Twitter</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.opt}>
+				<TouchableOpacity style={styles.opt} onPress={() => setIpt("youtube")}>
 					<Image
 						source={require("../../../images/icon_youtube.png")}
 						style={{ width: 24, height: 24 }}
 					/>
 					<Text>Youtube</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.opt}>
+				<TouchableOpacity style={styles.opt} onPress={() => setIpt("linkedin")}>
 					<Image
 						source={require("../../../images/icon_linkedin.png")}
 						style={{ width: 24, height: 24 }}

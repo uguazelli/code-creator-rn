@@ -1,6 +1,26 @@
+import { useEffect, useState } from "react";
 import { TextInput, Text, View } from "react-native";
 
-const Sms = () => {
+const Sms = ({ initialQr, setInitialQr }) => {
+	const [formData, setFormData] = useState({
+		phone: "",
+		msg: "",
+	});
+
+	const updateSMS = () => {
+		let data = '<a href="sms:' + formData.phone.replace(/ /g, "");
+		data +=
+			"&body=" +
+			formData.msg.replace(/ /g, "%20") +
+			'">' +
+			formData.phone +
+			"</a>";
+
+		setInitialQr({ ...initialQr, text: data });
+	};
+
+	useEffect(() => updateSMS(), [formData]);
+
 	return (
 		<View
 			style={{
@@ -17,6 +37,9 @@ const Sms = () => {
 			<View>
 				<TextInput
 					placeholder="+1 (555) 222 - 1234"
+					onChangeText={(value) => {
+						setFormData({ ...formData, phone: value });
+					}}
 					style={{
 						height: 40,
 						margin: 12,
@@ -29,6 +52,9 @@ const Sms = () => {
 			<View>
 				<TextInput
 					placeholder="Message"
+					onChangeText={(value) => {
+						setFormData({ ...formData, msg: value });
+					}}
 					style={{
 						height: 40,
 						margin: 12,

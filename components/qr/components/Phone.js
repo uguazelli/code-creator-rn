@@ -1,6 +1,6 @@
 import { TextInput, Text, View } from "react-native";
 
-const Phone = () => {
+const Phone = ({ initialQr, setInitialQr }) => {
 	return (
 		<View
 			style={{
@@ -17,6 +17,9 @@ const Phone = () => {
 			<View style={{ justifyContent: "center", alignItems: "center" }}>
 				<TextInput
 					placeholder="+1 (555) 222 - 1234"
+					onChangeText={(value) => {
+						setInitialQr({ ...initialQr, text: value });
+					}}
 					style={{
 						height: 40,
 						margin: 12,

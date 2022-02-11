@@ -10,6 +10,7 @@ import StyleColors from "./components/StyleColors";
 import QRCanvas from "./components/QRCanvas";
 import ViewShot from "react-native-view-shot";
 import * as MediaLibrary from "expo-media-library";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 const windowWidth = () => {
 	let w = Dimensions.get("window").width;
@@ -17,21 +18,14 @@ const windowWidth = () => {
 	return w * 0.9;
 };
 
-const Result = () => {
+const Result = ({ route }) => {
 	const qrDiv = useRef(null);
 	const [status, requestPermission] = MediaLibrary.usePermissions();
 
+	const { initialQr } = route.params;
 	const [qr, setQr] = useState({
-		text: "https://www.code-creator.net",
-		width: 256,
-		height: 256,
+		...initialQr,
 		correctLevel: QRCode.CorrectLevel.H,
-		dotScale: 1,
-		dotScaleTiming: 1,
-		dotScaleA: 1,
-		logoHeight: 80,
-		logoWidth: 80,
-		backgroundImageAlpha: 1,
 	});
 
 	const pickImage = async (imageDestination) => {
@@ -53,20 +47,17 @@ const Result = () => {
 	};
 
 	const getCameraRollPermissions = async () => {
-		console.log(status);
-		if (status.granted) {
-		} else {
-			/// Handle permissions denied;
-			requestPermission();
-			console.log("Uh oh! The user has not granted us permission.");
-		}
+		if (!status.granted) requestPermission();
 	};
 
 	const downloadQr = async () => {
 		let url = await qrDiv.current.capture();
-		await console.log(url);
 		await getCameraRollPermissions();
 		await MediaLibrary.saveToLibraryAsync(url);
+		showMessage({
+			message: "Image saved",
+			type: "success",
+		});
 	};
 
 	return (
