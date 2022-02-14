@@ -84,7 +84,7 @@ const Result = ({ route }) => {
 			<View style={styles.button}>
 				<Button
 					title="Download"
-					color="#841584"
+					color="#264653"
 					accessibilityLabel="Download"
 					onPress={downloadQr}
 				/>

@@ -1,40 +1,85 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
+import Options from "./components/Options";
+import Url from "./components/Url";
+import { useEffect, useState } from "react";
+import Txt from "./components/Txt";
+import Email from "./components/Email";
+import Phone from "./components/Phone";
+import Sms from "./components/Sms";
+import Wifi from "./components/Wifi";
+import Social from "./components/Social";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const QR = ({ navigation }) => {
+	const [ipt, setIpt] = useState("url");
+
+	const [initialQr, setInitialQr] = useState({
+		text: "https://www.code-creator.net",
+		width: 256,
+		height: 256,
+		logoHeight: 60,
+		logoWidth: 60,
+		colorDark: "#001a00",
+		colorLight: "#fffffd",
+		PO: "#001a00",
+		PI: "#001a00",
+		AO: "#001a00",
+		AI: "#001a00",
+		timing_H: "#001a00",
+		timing_V: "#001a00",
+	});
+
+	// useEffect(() => console.log(initialQr.text), [initialQr]);
+	// useEffect(() => console.log(ipt), [ipt]);
+
+	const showIpt = () => {
+		if (ipt === "url")
+			return <Url initialQr={initialQr} setInitialQr={setInitialQr} />;
+		else if (ipt === "text")
+			return <Txt initialQr={initialQr} setInitialQr={setInitialQr} />;
+		else if (ipt === "email")
+			return <Email initialQr={initialQr} setInitialQr={setInitialQr} />;
+		else if (ipt === "phone")
+			return <Phone initialQr={initialQr} setInitialQr={setInitialQr} />;
+		else if (ipt === "sms")
+			return <Sms initialQr={initialQr} setInitialQr={setInitialQr} />;
+		else if (ipt === "wifi")
+			return <Wifi initialQr={initialQr} setInitialQr={setInitialQr} />;
+		else
+			return (
+				<Social initialQr={initialQr} setInitialQr={setInitialQr} ipt={ipt} />
+			);
+	};
 	return (
-		<View style={styles.container}>
+		<KeyboardAwareScrollView>
 			<View style={styles.card}>
-				<View
-					style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-				>
-					<Text style={{ fontSize: 24 }}>I want to...</Text>
-				</View>
-				<View style={{ flex: 2 }}>
-					<View style={{ flexDirection: "row" }}>
-						<TouchableOpacity
-							onPress={() => navigation.navigate("Create")}
-							style={styles.button}
-						>
-							<Text>Create a QR</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							onPress={() => navigation.navigate("Read")}
-							style={styles.button}
-						>
-							<Text>Read a QR</Text>
-						</TouchableOpacity>
+				<View style={styles.container}>
+					<View>
+						<Options setIpt={setIpt} />
+					</View>
+					<View style={styles.input}>{showIpt()}</View>
+					<View>
+						<Button
+							title="Create"
+							color="#264653"
+							accessibilityLabel="Create"
+							onPress={() => {
+								navigation.navigate("Result", {
+									initialQr: initialQr,
+								});
+								console.log("Go to Resutl");
+							}}
+						/>
 					</View>
 				</View>
 			</View>
-		</View>
+		</KeyboardAwareScrollView>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: "#264653",
-		height: "100%",
-		justifyContent: "center",
+		margin: 10,
 	},
 	card: {
 		backgroundColor: "#F2F2F2",
@@ -42,16 +87,17 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		borderRadius: 10,
 		height: "90%",
+		display: "flex",
 	},
-	button: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		height: "80%",
+
+	input: {
 		backgroundColor: "#FFF",
-		margin: 10,
-		marginTop: 20,
+		height: 250,
+		alignItems: "center",
+		justifyContent: "center",
 		borderRadius: 10,
+		marginTop: 20,
+		marginBottom: 20,
 	},
 });
 

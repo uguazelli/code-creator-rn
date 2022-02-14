@@ -3,7 +3,7 @@ import { TextInput, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
 const Wifi = ({ initialQr, setInitialQr }) => {
-	const [encryption, setEncryption] = useState("");
+	const [encryption, setEncryption] = useState("WPA");
 
 	const [formData, setFormData] = useState({
 		type: "WPA",

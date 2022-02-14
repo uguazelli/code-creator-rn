@@ -9,9 +9,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import QR from "./components/qr/QR";
 import Bar from "./components/bar/Bar";
-
-import Create from "./components/qr/Create";
-import Read from "./components/qr/Read";
 import Result from "./components/qr/Result";
 
 const Tab = createBottomTabNavigator();
@@ -50,8 +47,7 @@ export default function App() {
 					component={Home}
 					options={{ headerShown: false }}
 				/>
-				<Stack.Screen name="Create" component={Create} options={opts} />
-				<Stack.Screen name="Read" component={Read} options={opts} />
+
 				<Stack.Screen name="Result" component={Result} options={opts} />
 			</Stack.Navigator>
 			<StatusBar style="light" backgroundColor="#264653" />

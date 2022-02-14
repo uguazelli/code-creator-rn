@@ -10,7 +10,7 @@ const StyleBackground = ({ pickImage, qr, setQr }) => {
 
 			<Pressable
 				style={{
-					backgroundColor: "#1a1369",
+					backgroundColor: "#264653",
 					padding: 10,
 					width: "60%",
 					margin: 10,

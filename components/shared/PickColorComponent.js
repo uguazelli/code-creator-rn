@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { View, StyleSheet, Modal, Pressable, Text } from "react-native";
-import ColorPicker from "react-native-wheel-color-picker";
+// import ColorPicker from "react-native-wheel-color-picker";
+import { ColorPicker } from "react-native-color-picker";
+import { fromHsv } from "react-native-color-picker";
 
 const PickColorComponent = ({ qr, setQr, param, title, carouselWidth }) => {
 	const buttonWidth = () => {
 		return (carouselWidth / 2) * 0.8;
 	};
 	const [modalVisible, setModalVisible] = useState(false);
+	const [color, setColor] = useState("");
+	const setCurrentColor = () => {
+		setQr({ ...qr, [param]: color });
+	};
 	return (
 		<>
 			<Modal
@@ -21,13 +27,10 @@ const PickColorComponent = ({ qr, setQr, param, title, carouselWidth }) => {
 					<View style={styles.modalView}>
 						<View style={styles.container}>
 							<ColorPicker
-								swatchesLast={false}
-								thumbSize={40}
-								sliderSize={40}
-								color={qr[param]}
-								onColorChangeComplete={(value) => {
-									setQr({ ...qr, [param]: value });
+								onColorChange={(value) => {
+									setColor(fromHsv({ h: value.h, s: value.s, v: value.v }));
 								}}
+								style={{ flex: 1 }}
 							/>
 						</View>
 						<View style={{ flex: 1 }}>
@@ -38,7 +41,10 @@ const PickColorComponent = ({ qr, setQr, param, title, carouselWidth }) => {
 										styles.buttonClose,
 										{ backgroundColor: "#1a1369" },
 									]}
-									onPress={() => setModalVisible(!modalVisible)}
+									onPress={() => {
+										setCurrentColor();
+										setModalVisible(!modalVisible);
+									}}
 								>
 									<Text style={styles.textStyle}>Confirm</Text>
 								</Pressable>
@@ -62,6 +68,7 @@ const styles = StyleSheet.create({
 	container: {
 		marginBottom: 30,
 		flex: 5,
+		width: "100%",
 	},
 	centeredView: {
 		flex: 1,
@@ -91,10 +98,10 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 	buttonOpen: {
-		backgroundColor: "#1a1369",
+		backgroundColor: "#264653",
 	},
 	buttonClose: {
-		backgroundColor: "#841584",
+		backgroundColor: "#264653",
 	},
 	textStyle: {
 		color: "white",
