@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
 	View,
 	StyleSheet,
@@ -13,6 +13,9 @@ import Carousel from "simple-carousel-react-native";
 import RNPickerSelect from "react-native-picker-select";
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import PickColorComponent from "../shared/PickColorComponent";
+import ViewShot from "react-native-view-shot";
+import * as MediaLibrary from "expo-media-library";
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 const windowWidth = () => {
 	let w = Dimensions.get("window").width;
@@ -27,8 +30,8 @@ const windowHeight = () => {
 
 const Bar = () => {
 	const [bar, setBar] = useState({
-		value: "0123456789012",
-		text: "0123456789012",
+		value: "0123456789",
+		text: "0123456789",
 		format: "CODE128",
 		lineColor: "black",
 		background: "white",
@@ -41,26 +44,53 @@ const Bar = () => {
 		setIsEnabled((previousState) => !previousState);
 	};
 
+	const [hasError, setHasError] = useState(false);
+
+	const barDiv = useRef(null);
+	const [status, requestPermission] = MediaLibrary.usePermissions();
+	const getCameraRollPermissions = async () => {
+		if (!status.granted) requestPermission();
+	};
+
+	const downloadQr = async () => {
+		let url = await barDiv.current.capture();
+		await getCameraRollPermissions();
+		await MediaLibrary.saveToLibraryAsync(url);
+		showMessage({
+			message: "Image saved",
+			type: "success",
+		});
+	};
+
 	return (
 		<KeyboardAwareScrollView>
 			<View style={styles.container}>
 				<View style={styles.display}>
-					<Barcode
-						format={bar.format}
-						value={bar.value}
-						text={bar.value}
-						lineColor={bar.lineColor}
-						background={bar.background}
-						maxWidth={Dimensions.get("window").width / 2}
-					/>
+					<ViewShot ref={barDiv}>
+						{hasError ? (
+							invalidBar()
+						) : (
+							<Barcode
+								format={bar.format}
+								value={bar.value}
+								text={bar.text}
+								lineColor={bar.lineColor}
+								background={bar.background}
+								maxWidth={Dimensions.get("window").width / 2}
+								style={{ paddingTop: 20, paddingLeft: 10, paddingRight: 10 }}
+								onError={() => setHasError(true)}
+							/>
+						)}
+					</ViewShot>
 				</View>
 				<View style={styles.input}>
 					<TextInput
 						textAlign="center"
-						placeholder="0123456789012"
+						value={bar.value}
 						onChangeText={(value) => {
 							let v = value == "" ? "0" : value;
-							setBar({ ...bar, value: v });
+							setBar({ ...bar, value: v, text: v });
+							setHasError(false);
 						}}
 						style={{
 							height: 40,
@@ -197,7 +227,7 @@ const Bar = () => {
 					</Carousel>
 				</View>
 
-				<Pressable style={styles.button}>
+				<Pressable style={styles.button} onPress={downloadQr}>
 					<Text style={{ color: "white" }}>Download!</Text>
 				</Pressable>
 			</View>

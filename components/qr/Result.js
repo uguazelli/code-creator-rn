@@ -26,6 +26,9 @@ const Result = ({ route }) => {
 	const [qr, setQr] = useState({
 		...initialQr,
 		correctLevel: QRCode.CorrectLevel.H,
+		dotScale: 1,
+		dotScaleTiming: 1,
+		dotScaleA: 1,
 	});
 
 	const pickImage = async (imageDestination) => {
